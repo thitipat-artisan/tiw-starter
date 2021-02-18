@@ -1,0 +1,36 @@
+name: hello (develop)
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+
+env:
+  PROJECT_ID: artisan-trypt
+  BRANCH_NAME: develop
+  RUN_REGION: asia-southeast1
+  SERVICE_NAME: hello
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ secrets.SA_GCP_GITHUB_RUNNER }}
+
+      - name: Build
+        run: |
+          gcloud builds submit \
+          --tag gcr.io/$PROJECT_ID/$SERVICE_NAME:$BRANCH_NAME
+
+      - name: Deploy
+        run: |
+          gcloud run deploy $SERVICE_NAME-$BRANCH_NAME \
+          --quiet \
+          --region $RUN_REGION \
+          --image gcr.io/$PROJECT_ID/$SERVICE_NAME:$BRANCH_NAME \
+          --platform managed \
+          --allow-unauthenticated
