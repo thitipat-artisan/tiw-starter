@@ -6,7 +6,7 @@ on:
       - develop
 
 env:
-  PROJECT_ID: artisan-trypt
+  PROJECT_ID: ci-cd-artisan
   BRANCH_NAME: develop
   RUN_REGION: asia-southeast1
   SERVICE_NAME: hello
@@ -19,7 +19,7 @@ jobs:
       - uses: google-github-actions/setup-gcloud@master
         with:
           project_id: ${{ env.PROJECT_ID }}
-          service_account_key: ${{ secrets.SA_GCP_GITHUB_RUNNER }}
+          service_account_key: ${{ secrets.RUNNER }}
 
       - name: Build
         run: |
