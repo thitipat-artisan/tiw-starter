@@ -9,7 +9,7 @@ env:
   PROJECT_ID: ci-cd-artisan
   BRANCH_NAME: develop
   RUN_REGION: asia-southeast1
-  SERVICE_NAME: hello
+  SERVICE_NAME: hello-tiw
 
 jobs:
   build:
